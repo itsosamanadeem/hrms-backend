@@ -1,0 +1,37 @@
+# Core Framework
+fastapi           # latest stable as of Sep 2025 :contentReference[oaicite:1]{index=1}
+uvicorn[standard]  # recent uvicorn version
+
+# Database & ORM
+SQLAlchemy         # latest in 2.0 series :contentReference[oaicite:2]{index=2}
+psycopg2-binary      # for PostgreSQL support (optional)
+
+# Environment & Config
+python-dotenv
+
+# XML Parsing & Converters
+lxml
+xmltodict
+
+# Validation & Serialization
+pydantic
+
+# Security & Auth (optional but recommended)
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Utilities
+aiofiles
+httpx
+watchfiles
+
+# Optional Tools for Parsing / JSON Conversion
+beautifulsoup4
+defusedxml
+
+# Logging & Debugging
+loguru
+
+# FastAPI Utilities
+fastapi-utils       # for extra utilities around FastAPI :contentReference[oaicite:3]{index=3}
+alembic

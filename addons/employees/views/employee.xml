@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+    <record id="view_employee_form" model="ir_hr_view">
+        <field name="name">employee.form</field>
+        <field name="model">hr_employee</field>
+        <field name="arch" type="xml">
+            <form string="Employee">
+                <sheet>
+                    <group>
+                        <field name="emp_name" invisble="1"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="address"/>
+                        <field name="job_title"/>
+                        <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                    </group>
+                </sheet>    
+                <!-- <notebook>
+                    <page String="Employee Detail">
+                        <field name="attendance_one2many">
+                            <field name="emp_name" invisble="1"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="address"/>
+                            <field name="job_title"/>
+                            <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                        </field>
+                    </page>
+                </notebook> -->
+            </form>
+        </field>
+    </record>
+</data>
