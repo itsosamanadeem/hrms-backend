@@ -40,7 +40,7 @@ A modern HRMS backend built with **FastAPI**, **SQLAlchemy**, **PostgreSQL**, an
 * Eager loading for performance
 * Alembic migrations supported
 
-### 8. Environment Variables (config.env)
+### 6. Environment Variables (config.env)
 
 ```
 DB_USER=postgres
@@ -50,13 +50,50 @@ DB_HOST=localhost
 DB_PORT=5432
 ```
 
-### 9. Installation & Run
+### 7. Cloning
 
 ```bash
 # Clone the repo
 git clone https://github.com/itsosamanadeem/hrms-backend.git
 cd hrms-backend
+```
 
+### 8. Docker Compose for PostgreSQL & Portainer
+
+```yaml
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=hrms
+      - POSTGRES_USER=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - hrms_db_data:/var/lib/postgresql/data/pgdata
+    restart: always
+
+  portainer:
+    container_name: Portainer
+    image: portainer/portainer-ce:latest
+    ports:
+      - '9000:9000'
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  hrms_db_data:
+  portainer_data:
+```
+
+### 9. Installation & Run
+
+```bash
 # Create virtual environment
 python -m venv .env
 source .env/bin/activate
