@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text
 from core.utilities.database import Base
 
+
 class IrHrModel(Base):
     __tablename__ = "ir_hr_model"
     __table_args__ = {"extend_existing": True}

@@ -27,13 +27,10 @@ source .env/bin/activate
 # Export DB info for Python scripts
 export DB_HOST DB_PORT DB_USER DB_PASSWORD DB_NAME
 
-# Run initial database setup only once
+# Run initial database setup only once (handled by Python migration manager at startup)
 echo "🛠️  Running initial database setup..."
-# python3 -m main
-# python -m main
+# (kept for compatibility; actual migration is done in FastAPI startup)
 
 echo "✅ HRMS Base Models Initialized."
 echo "🚀 Starting HRMS FastAPI server..."
-# exec alembic upgrade head
-exec uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-
+exec uvicorn main:app --host 0.0.0.0 --port 8000

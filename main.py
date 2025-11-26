@@ -1,17 +1,14 @@
+from addons.employees.model.hr_employee import HrEmployee
+from addons.attendance.model.attendance_report import IrHrAttendance
+from core.router.discover_router import include_routers
 from fastapi import FastAPI
-from core.module_loader import loader
-from core.utilities.auto_run_migration import run_auto_migration
+from addons.employees.controller.employee_controller import router as employee_router
+from addons.attendance.controller.attendance_controller import router as attendance_router
 
-app = FastAPI(title="HRMS")
+app = FastAPI(title="HRMS API", version="1.0")
 
-@app.on_event("startup")
-def main():
-    # Load your modules first
-    loader()
-    
-    # Detect and apply schema changes automatically
-    run_auto_migration()
+include_routers(app)
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the HRMS API!"}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

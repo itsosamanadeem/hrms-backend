@@ -1,13 +1,17 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, Session, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 import logging
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path="config.env")
+
 # --- Environment Variables ---
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "hrms")
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_NAME = os.getenv("DB_NAME")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
 
 # --- Build Database URL ---
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -32,7 +36,13 @@ def init_connection():
     try:
         conn = engine.connect()
         print("Database connection established successfully.")
+        Base.metadata.create_all(bind=engine)
         conn.close()
     except Exception as e:
         print(f"Database connection failed: {e}")
+
+
+# if __name__== "__main__":
+#     init_connection()
+
 
