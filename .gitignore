@@ -7,6 +7,10 @@
 *.pyo
 *.pyd
 
+#db migrations
+./alembic/versions/*.py
+./alembic/versions/*.pyc
+
 # Environment and virtual environment
 
 .env/

@@ -13,3 +13,6 @@ from . import ir_hr_translation
 from . import ir_hr_log
 from . import ir_hr_attachment
 from . import ir_hr_cron
+from . import ir_hr_users
+from . import ir_hr_role
+from . import group_role_rel

@@ -6,18 +6,10 @@ from hrms.addons.employees.schema.employee_schema import EmployeeRead, EmployeeC
 
 router = APIRouter(prefix="/employee", tags=["Employee"])
 
-# ==========================
-# Routes
-# ==========================
-
 @router.post("/create", response_model=EmployeeRead)
 def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):
-    # Check for duplicate email or phone
     existing = db.query(HrEmployee).filter(
-        (HrEmployee.email == employee.email) |
-        (HrEmployee.phone == employee.phone) |
-        (HrEmployee.second_phone == employee.second_phone)
-    ).first()
+        (HrEmployee.email == employee.email)).first()
     if existing:
         raise HTTPException(status_code=400, detail="Employee with this email or phone already exists.")
 
@@ -52,5 +44,5 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
 def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     employees = db.query(HrEmployee).offset(skip).limit(limit).all()
     if not employees:
-        raise HTTPException(status_code="404", detail="No Employees yet")
+        raise HTTPException(status_code=404, detail="No Employees yet")
     return employees
