@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
-from addons.attendance.model.attendance_report import LeaveTypeEnum
+from hrms.addons.attendance.model.attendance_report import LeaveTypeEnum
 # ========================
 # Pydantic Schemas
 # ========================
@@ -22,4 +22,4 @@ class AttendanceRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-from addons.employees.schema.employee_schema import EmployeeLink
+from hrms.addons.employees.schema.employee_schema import EmployeeLink

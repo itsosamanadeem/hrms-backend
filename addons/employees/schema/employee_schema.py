@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
-from addons.employees.model.hr_employee import EmpTypeEnum, EmpGroupLevel
+from typing import Optional
+from hrms.addons.employees.model.hr_employee import EmpTypeEnum, EmpGroupLevel
 
 # ==========================
 # Pydantic schemas
@@ -17,7 +18,7 @@ class EmployeeCreate(BaseModel):
     email: EmailStr
     phone: str
     second_phone: str | None = None
-    status: str
+    status: Optional[str] = "draft"
     address: str | None = None
     job_title: str | None = None
     dep_name: str | None = None
@@ -30,7 +31,7 @@ class EmployeeRead(BaseModel):
     email: EmailStr
     phone: str
     second_phone: str | None
-    status: str
+    status: Optional[str]
     address: str | None
     job_title: str | None
     dep_name: str | None

@@ -1,8 +1,8 @@
-"""Fisrt 
+"""First Migration
 
-Revision ID: d91051d70506
+Revision ID: 7c990a1cab0e
 Revises: 
-Create Date: 2025-11-26 15:32:27.775223
+Create Date: 2025-12-04 16:49:16.618125
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'd91051d70506'
+revision: str = '7c990a1cab0e'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -42,14 +42,11 @@ def upgrade() -> None:
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('phone')
     )
-    op.create_table('hr_expense',
-    sa.Column('expense_id', sa.Integer(), nullable=False),
-    sa.PrimaryKeyConstraint('expense_id')
-    )
     op.create_table('hr_payroll',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=128), nullable=True),
     sa.Column('payroll', sa.Integer(), nullable=True),
+    sa.Column('amount', sa.Float(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('ir_hr_attachment',
@@ -124,6 +121,7 @@ def upgrade() -> None:
     sa.Column('employee_id', sa.Integer(), nullable=False),
     sa.Column('attendance', sa.Float(), nullable=True),
     sa.Column('leaves_type', sa.Enum('SICK', 'ANNUAL', 'HAJJ', name='leavetypeenum'), nullable=True),
+    sa.Column('attendance_left', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['employee_id'], ['hr_employee.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -253,7 +251,6 @@ def downgrade() -> None:
     op.drop_table('ir_hr_cron')
     op.drop_table('ir_hr_attachment')
     op.drop_table('hr_payroll')
-    op.drop_table('hr_expense')
     op.drop_table('hr_employee')
     op.drop_table('employee_department')
     # ### end Alembic commands ###

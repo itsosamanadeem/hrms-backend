@@ -17,7 +17,6 @@ def topo_sort_modules(modules):
     for module, data in modules.items():
         indegree[module] = 0
 
-    # build graph
     for module, data in modules.items():
         for dep in data["depends"]:
             if dep not in modules:
@@ -39,5 +38,6 @@ def topo_sort_modules(modules):
             indegree[child] -= 1
             if indegree[child] == 0:
                 queue.append(child)
-
+                print(child)
+    print(order)
     return order

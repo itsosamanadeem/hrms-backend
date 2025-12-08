@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 from sqlalchemy.orm import mapped_column, Mapped
 
 class IrHrSetting(Base):

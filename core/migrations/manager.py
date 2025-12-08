@@ -12,7 +12,7 @@ from alembic.migration import MigrationContext
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.types import Enum as SAEnum
-from core.utilities.database import Base, DATABASE_URL
+from hrms.core.utilities.database import Base, DATABASE_URL
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 ALEMBIC_DIR = os.path.join(PROJECT_ROOT, "alembic")

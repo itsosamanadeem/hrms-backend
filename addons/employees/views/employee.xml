@@ -15,18 +15,20 @@
                         <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
                     </group>
                 </sheet>    
-                <!-- <notebook>
+                <notebook>
                     <page String="Employee Detail">
-                        <field name="attendance_one2many">
-                            <field name="emp_name" invisble="1"/>
-                            <field name="email"/>
-                            <field name="phone"/>
-                            <field name="address"/>
-                            <field name="job_title"/>
-                            <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                        <field name="attendance_ids">
+                            <list>
+                                <field name="emp_name" invisble="1"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="address"/>
+                                <field name="job_title"/>
+                                <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                            </list>
                         </field>
                     </page>
-                </notebook> -->
+                </notebook>
             </form>
         </field>
     </record>

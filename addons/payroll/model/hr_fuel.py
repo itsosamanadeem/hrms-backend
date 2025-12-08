@@ -1,5 +1,5 @@
 from sqlalchemy import Integer, String, Column, ForeignKey, Double,Enum
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 fuel_type_enum = Enum('petrol', 'cng', name='fuel_type', create_type=True)
 

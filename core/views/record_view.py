@@ -1,26 +1,49 @@
 from sqlalchemy.orm import Session
-from addons.base.model.ir_hr_view import IrHrView
-from addons.base.model.ir_hr_model import IrHrModel
+from sqlalchemy import inspect
+from hrms.addons.base.model.ir_hr_view import IrHrView
+from hrms.addons.base.model.ir_hr_model import IrHrModel
 import json
-from core.utilities.getAll_models import model_columns
-from core.utilities.xml_fields_check import xml_fields
+from .get_all_relationships import get_all_relationships
+from .xml_fields_check import xml_fields
 class RecordView:
 
     def __init__(self):
         self.xml_fields =  xml_fields
-        self.model_columns = model_columns
+        self.inspector = None
+
+    def get_columns(self,db,model):
+        self.inspector = inspect(db.bind)
+        columns = self.inspector.get_columns(model)
+        return [col["name"] for col in columns]
+
+    def get_tables_relationships(self,model):
+        orm_inspector = inspect(model)
+        return list(orm_inspector.relationships.keys())
 
     def save_view_to_db(self,db: Session, view_id, view_name, view_type, model_name, xml_view):
         try:
             print("Validating view before saving...")
-            model_columns = self.model_columns(model_name)
+
+            all_models = get_all_relationships()
+
+            ModelClass = all_models.get(model_name)
+            if not ModelClass:
+                raise ValueError(f"Model class for '{model_name}' not found.")
 
             model = db.query(IrHrModel).filter(IrHrModel.name == model_name).first()
+            
+            model_columns = self.get_columns(db,model_name)
+
+            relation_ships = self.get_tables_relationships(ModelClass)
+
+            print(f"Model columns for '{model_name}': {relation_ships}")
+            
             if not model:
                 raise ValueError(f"Model {model_name} not found in ir_hr_model table")
 
             xml_fields = self.xml_fields(xml_view)
-            invalid_fields = set(xml_fields) - set(model_columns)
+            model_fields = set(model_columns + relation_ships)
+            invalid_fields = set(xml_fields) - model_fields
 
             if invalid_fields:
                 raise ValueError(

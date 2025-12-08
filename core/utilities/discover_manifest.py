@@ -2,7 +2,7 @@ import importlib
 import pkgutil
 import os
 
-def discover_manifests(base_module="addons"):
+def discover_manifests(base_module):
     """
     Scan all modules inside addons and return:
     {
@@ -12,36 +12,29 @@ def discover_manifests(base_module="addons"):
         }
     }
     """
-    modules = {}
+    # print(base_module)
+    module_path = ".".join(("hrms","addons",base_module))
+    # print(base_module)
+    pkg = importlib.import_module(module_path)
+    pkg_dir = pkg.__path__[0]  # actual directory on disk
 
-    package = importlib.import_module(base_module)
+    manifest_file = os.path.join(pkg_dir, "__manifest__.py")
 
-    for _, module_name, is_pkg in pkgutil.iter_modules(package.__path__):
-        if not is_pkg:
-            continue
+    if not os.path.exists(manifest_file):
+        print(f"No manifest for {module_path}")
+        return {}
 
-        module_path = os.path.join(package.__path__[0], module_name)
-        manifest_path = os.path.join(module_path, "__manifest__.py")
+    spec = importlib.util.spec_from_file_location(
+        f"{module_path}.__manifest__", manifest_file
+    )
+    manifest_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(manifest_module)
 
-        if not os.path.exists(manifest_path):
-            print(f"No manifest for {module_name}")
-            continue
+    manifest = getattr(manifest_module, "manifest", None)
 
-        spec = importlib.util.spec_from_file_location(
-            f"{base_module}.{module_name}.__manifest__", manifest_path
-        )
-        manifest_module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(manifest_module)
-
-        manifest = getattr(manifest_module, "manifest", None)
-        if not manifest:
-            print(f"Manifest for {module_name} has no variable 'manifest'")
-            continue
-
-        modules[module_name] = {
-            "path": module_path,
-            "manifest": manifest,
-            "depends": manifest.get("depends", [])
-        }
-
-    return modules
+    return {
+        "name": base_module,
+        "path": pkg_dir,
+        "manifest": manifest,
+        "depends": manifest.get("depends", [])        
+    }

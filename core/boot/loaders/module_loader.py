@@ -1,5 +1,5 @@
-from .register_model import RegisterModel
-from .get_all_models import get_all_models
+from hrms.core.boot.registry.register_model import RegisterModel
+from hrms.core.boot.utils.get_all_models import get_all_models
 
 def register_all_models(db):
     registrar = RegisterModel()

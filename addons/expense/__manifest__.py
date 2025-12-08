@@ -1,3 +1,3 @@
 manifest={
-    "name": "expense"
+    "name": "expense",
 }

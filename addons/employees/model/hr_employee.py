@@ -1,6 +1,6 @@
 import enum
 from sqlalchemy import Column, Integer, String, Text, Enum
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 from sqlalchemy.orm import relationship
 
 
@@ -35,7 +35,7 @@ class HrEmployee(Base):
             "rejected",
             name="status_enum",  # PostgreSQL ENUM name
         ),
-        nullable=False,
+        nullable=True,
     )
 
     address = Column(Text)

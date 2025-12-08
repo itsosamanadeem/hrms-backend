@@ -1,8 +1,8 @@
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import Session
-from addons.base.model.ir_hr_model import IrHrModel
-from addons.base.model.ir_hr_fields import IrHrField
-from .get_all_models import get_all_models
+from hrms.addons.base.model.ir_hr_model import IrHrModel
+from hrms.addons.base.model.ir_hr_fields import IrHrField
+from hrms.core.boot.utils.get_all_models import get_all_models
 
 def register_fields(db: Session):
     try:

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from datetime import datetime
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class IrHrCron(Base):
     __tablename__ = "ir_hr_cron"

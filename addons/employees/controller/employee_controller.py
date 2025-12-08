@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from core.utilities.database import get_db
-from addons.employees.model.hr_employee import HrEmployee
-from addons.employees.schema.employee_schema import EmployeeRead, EmployeeCreate
+from hrms.core.utilities.database import get_db
+from hrms.addons.employees.model.hr_employee import HrEmployee
+from hrms.addons.employees.schema.employee_schema import EmployeeRead, EmployeeCreate
 
 router = APIRouter(prefix="/employee", tags=["Employee"])
 
@@ -48,7 +48,9 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
     return emp
 
 
-@router.get("/", response_model=list[EmployeeRead])
+@router.get("", response_model=list[EmployeeRead])
 def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     employees = db.query(HrEmployee).offset(skip).limit(limit).all()
+    if not employees:
+        raise HTTPException(status_code="404", detail="No Employees yet")
     return employees

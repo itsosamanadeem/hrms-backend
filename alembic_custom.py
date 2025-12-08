@@ -1,6 +1,6 @@
 import sys
 from alembic.config import Config
-from core.migrations.commands.upgrade_table_name import upgrade_table_name
+from hrms.core.migrations.commands.upgrade_table_name import upgrade_table_name
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

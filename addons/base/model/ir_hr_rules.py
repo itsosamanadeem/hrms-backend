@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Boolean
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class IrHrRule(Base):
     __tablename__ = "ir_hr_rule"

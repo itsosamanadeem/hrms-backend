@@ -2,10 +2,12 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 from alembic import context
 from pathlib import Path
-from core.utilities.module_loader import loader
+# import addons
+from hrms.core.utilities.module_loader import loader
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -73,20 +75,20 @@ def run_migrations_online() -> None:
         with context.begin_transaction():
             context.run_migrations()
     
-    from core.utilities.database import SessionLocal, engine
-    from core.boot.register_all_models import register_all_models
-    from core.boot.register_fields import register_fields
-    from sqlalchemy import inspect
+    # from hrms.core.utilities.database import SessionLocal, engine
+    # from hrms.core.boot.register_all_models import register_all_models
+    # from hrms.core.boot.register_fields import register_fields
+    # from sqlalchemy import inspect
 
-    db = SessionLocal()
-    inspector = inspect(db.bind)
+    # db = SessionLocal()
+    # inspector = inspect(db.bind)
 
-    try:
-        if inspector.has_table("ir_hr_model"):
-            register_all_models(db)
-            register_fields(db)
-    finally:
-        db.close()
+    # try:
+    #     if inspector.has_table("ir_hr_model"):
+    #         register_all_models(db)
+    #         register_fields(db)
+    # finally:
+    #     db.close()
 
 
 if context.is_offline_mode():

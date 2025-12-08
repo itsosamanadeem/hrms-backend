@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class IrHrAction(Base):
     __tablename__ = "ir_hr_action"

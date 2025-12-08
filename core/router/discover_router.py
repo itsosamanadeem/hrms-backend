@@ -2,7 +2,7 @@ import importlib
 import pkgutil
 from fastapi import APIRouter, FastAPI
 
-def include_routers(app: FastAPI, package_name: str = "addons"):
+def include_routers(app: FastAPI, package_name: str = "hrms.addons"):
     """
     Automatically discover all controller modules in addons
     and include routers if they define `router`.

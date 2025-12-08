@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class IrHrAttachment(Base):
     __tablename__ = "ir_hr_attachment"

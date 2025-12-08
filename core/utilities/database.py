@@ -3,8 +3,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 import logging
 from dotenv import load_dotenv
+from pathlib import Path
 
-load_dotenv(dotenv_path="config.env")
+dotenv_path = Path(__file__).resolve().parent.parent.parent / "config.env"
+
+load_dotenv(dotenv_path=dotenv_path)
 
 # --- Environment Variables ---
 DB_USER = os.getenv("DB_USER")
@@ -15,7 +18,6 @@ DB_PORT = os.getenv("DB_PORT")
 
 # --- Build Database URL ---
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
 # --- SQLAlchemy Core Objects ---
 logging.getLogger("sqlalchemy.engine").setLevel(logging.ERROR)
 engine = create_engine(DATABASE_URL, echo=False)

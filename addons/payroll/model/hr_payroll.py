@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, ForeignKey, String
-from core.utilities.database import Base
+from sqlalchemy import Column, Integer, ForeignKey, String, Float
+from hrms.core.utilities.database import Base
 
 class HrSalary(Base):
     __tablename__ = "hr_payroll"
@@ -9,5 +9,5 @@ class HrSalary(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
     payroll = Column(Integer, default=0)
-
+    amount = Column(Float, nullable=True, default=0.0)
     

@@ -1,5 +1,5 @@
 from sqlalchemy import inspect
-from addons.base.model.ir_hr_model import IrHrModel
+from hrms.addons.base.model.ir_hr_model import IrHrModel
 
 class RegisterModel:
 

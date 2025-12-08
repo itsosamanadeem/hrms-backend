@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, ForeignKey
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class EmployeeDepartment(Base):
     __tablename__ = "employee_department"

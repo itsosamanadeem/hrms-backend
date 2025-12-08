@@ -2,7 +2,7 @@
 <data>
     <record id="view_attendance_form" model="ir_hr_view">
         <field name="name">attendance.form</field>
-        <field name="model">ir_hr_attendance</field>
+        <field name="model">hr_attendance</field>
         <field name="arch" type="xml">
             <form string="Employee">
                 <sheet>

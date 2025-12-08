@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 
 class IrHrGroup(Base):
     __tablename__ = "ir_hr_group"

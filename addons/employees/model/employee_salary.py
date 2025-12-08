@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, ForeignKey,String, Enum
-from core.utilities.database import Base
+from hrms.core.utilities.database import Base
 import enum
 
 class emp_bonus_enum(enum.Enum):

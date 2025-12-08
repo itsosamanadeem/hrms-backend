@@ -1,5 +1,5 @@
-# # from core.database import Base, engine, SessionLocal
-# # from core.base.models.ir_hr_model import IrHrModel
+# # from hrms.core.database import Base, engine, SessionLocal
+# # from hrms.core.base.models.ir_hr_model import IrHrModel
 # # from .initialize_db import RegisterNewModel as RNM
 
 # def initialize_database():
