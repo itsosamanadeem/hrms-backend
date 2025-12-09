@@ -36,8 +36,6 @@ class RecordView:
 
             relation_ships = self.get_tables_relationships(ModelClass)
 
-            print(f"Model columns for '{model_name}': {relation_ships}")
-            
             if not model:
                 raise ValueError(f"Model {model_name} not found in ir_hr_model table")
 

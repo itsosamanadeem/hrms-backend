@@ -3,7 +3,6 @@ from pathlib import Path
 from alembic.config import Config
 from alembic import command
 from hrms.core.boot.initializer import initialize_system
-# from hrms.api.main import start_app
 import uvicorn
 
 def parse_args():
@@ -59,7 +58,6 @@ def alembic_upgrade():
     print("Database upgraded to head")
 
 def run_server(host,port):
-    # app = start_app()
     uvicorn.run("hrms.api.main:app", host=host, port=int(port), reload=True)
 
 # --- Main Execution ---

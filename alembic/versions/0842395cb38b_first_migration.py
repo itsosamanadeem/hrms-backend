@@ -1,8 +1,8 @@
-"""New Migration
+"""First migration
 
-Revision ID: 64e80777de46
-Revises: 8fc7985b8c22
-Create Date: 2025-12-08 15:31:08.110438
+Revision ID: 0842395cb38b
+Revises: e684d8e364bf
+Create Date: 2025-12-09 15:50:19.676773
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '64e80777de46'
-down_revision: Union[str, Sequence[str], None] = '8fc7985b8c22'
+revision: str = '0842395cb38b'
+down_revision: Union[str, Sequence[str], None] = 'e684d8e364bf'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -98,6 +98,16 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
+    op.create_table('ir_hr_role',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=128), nullable=True),
+    sa.Column('code', sa.String(length=64), nullable=True),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('permissions', sa.Text(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('code'),
+    sa.UniqueConstraint('name')
+    )
     op.create_table('ir_hr_sequence',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=128), nullable=False),
@@ -174,6 +184,14 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['model_id'], ['ir_hr_model.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('ir_hr_group_role_rel',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('group_id', sa.Integer(), nullable=True),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['group_id'], ['ir_hr_group.id'], ),
+    sa.ForeignKeyConstraint(['role_id'], ['ir_hr_role.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('ir_hr_report',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=128), nullable=False),
@@ -193,6 +211,16 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['model_id'], ['ir_hr_model.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('ir_hr_users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=True),
+    sa.Column('email', sa.String(), nullable=True),
+    sa.Column('password', sa.String(), nullable=True),
+    sa.Column('group_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['group_id'], ['ir_hr_group.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_ir_hr_users_email'), 'ir_hr_users', ['email'], unique=True)
     op.create_table('ir_hr_view',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('view_id', sa.String(length=128), nullable=False),
@@ -238,8 +266,11 @@ def downgrade() -> None:
     op.drop_table('ir_hr_menu')
     op.drop_table('ir_hr_action')
     op.drop_table('ir_hr_view')
+    op.drop_index(op.f('ix_ir_hr_users_email'), table_name='ir_hr_users')
+    op.drop_table('ir_hr_users')
     op.drop_table('ir_hr_rule')
     op.drop_table('ir_hr_report')
+    op.drop_table('ir_hr_group_role_rel')
     op.drop_table('ir_hr_field')
     op.drop_table('ir_hr_access')
     op.drop_table('hr_salary')
@@ -249,6 +280,7 @@ def downgrade() -> None:
     op.drop_table('ir_hr_translation')
     op.drop_table('ir_hr_setting')
     op.drop_table('ir_hr_sequence')
+    op.drop_table('ir_hr_role')
     op.drop_table('ir_hr_model')
     op.drop_table('ir_hr_log')
     op.drop_table('ir_hr_group')

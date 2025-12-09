@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import engine_from_config, create_engine
 from sqlalchemy import pool
 from hrms.core.utilities.database import Base
 from alembic import context
@@ -61,9 +61,15 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
+    # connectable = engine_from_config(
+    #     config.get_section(config.config_ini_section, {}),
+    #     prefix="sqlalchemy.",
+    #     poolclass=pool.NullPool,
+    # )
+    
+    from hrms.core.utilities.database import DATABASE_URL
+    connectable = create_engine(
+        DATABASE_URL,
         poolclass=pool.NullPool,
     )
 
@@ -75,22 +81,6 @@ def run_migrations_online() -> None:
         with context.begin_transaction():
             context.run_migrations()
     
-    # from hrms.core.utilities.database import SessionLocal, engine
-    # from hrms.core.boot.register_all_models import register_all_models
-    # from hrms.core.boot.register_fields import register_fields
-    # from sqlalchemy import inspect
-
-    # db = SessionLocal()
-    # inspector = inspect(db.bind)
-
-    # try:
-    #     if inspector.has_table("ir_hr_model"):
-    #         register_all_models(db)
-    #         register_fields(db)
-    # finally:
-    #     db.close()
-
-
 if context.is_offline_mode():
     run_migrations_offline()
 else:

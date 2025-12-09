@@ -1,3 +1,4 @@
+
 def get_all_relationships():
     import sqlalchemy.orm
     from hrms.core.utilities.database import Base
