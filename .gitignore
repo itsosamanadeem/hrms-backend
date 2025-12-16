@@ -13,9 +13,9 @@
 
 # Environment and virtual environment
 
-.env/
-*.env
-config.env
+hrms/.env/
+hrms/*.env
+hrms/config.env
 
 # VS Code
 
