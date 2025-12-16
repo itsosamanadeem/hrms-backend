@@ -1,0 +1,3 @@
+manifest={
+    "name": "Base Module",
+}

@@ -1,0 +1,51 @@
+# Git ignore file for HRMS project
+
+# Python cache files
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+#db migrations
+./alembic/versions/*.py
+./alembic/versions/*.pyc
+
+# Environment and virtual environment
+
+.env/
+*.env
+config.env
+
+# VS Code
+
+.vscode/
+
+# MacOS
+
+.DS_Store
+
+# Logs
+
+*.log
+
+# Database files (optional)
+
+*.sqlite3
+
+# Pytest cache
+
+.pytest_cache/
+
+# MyPy cache
+
+.mypy_cache/
+
+# Coverage reports
+
+htmlcov/
+.coverage
+
+# Pydantic model rebuild cache (if any)
+
+.pydantic_cache/

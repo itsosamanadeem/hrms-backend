@@ -1,0 +1,58 @@
+# Core Framework
+fastapi
+uvicorn[standard]
+
+# Database & ORM
+SQLAlchemy
+psycopg2-binary
+alembic
+
+# Environment & Config
+python-dotenv
+
+# XML Parsing & Converters
+lxml
+xmltodict
+beautifulsoup4
+defusedxml
+
+# Validation & Serialization
+pydantic
+pydantic_core
+pydantic[email]
+
+# Security & Auth
+PyJWT
+passlib[argon2]
+# argon2
+cffi
+ecdsa
+rsa
+pyasn1
+six
+cryptography
+python-multipart
+
+# Utilities
+aiofiles
+httpx
+watchfiles
+httptools
+h11
+idna
+anyio
+dnspython
+loguru
+psutil
+typing_extensions
+typing-inspection
+
+# FastAPI Utilities
+fastapi-utils
+
+# Template Engines / Misc
+Mako
+MarkupSafe
+annotated-types
+annotated-doc
+soupsieve

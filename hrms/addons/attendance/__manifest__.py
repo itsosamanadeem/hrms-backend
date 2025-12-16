@@ -1,0 +1,10 @@
+manifest={
+    "name":"Attendance",
+    "depends": ['employees'],
+    "data":{
+        "views":[
+            "views/attendance.xml",
+            "views/attendance_form.xml"
+        ]
+    }
+}
