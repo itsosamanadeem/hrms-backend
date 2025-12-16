@@ -8,8 +8,8 @@
 *.pyd
 
 #db migrations
-./alembic/versions/*.py
-./alembic/versions/*.pyc
+hrms/alembic/versions/*.py
+hrms/alembic/versions/*.pyc
 
 # Environment and virtual environment
 
