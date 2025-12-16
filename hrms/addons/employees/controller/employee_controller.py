@@ -10,29 +10,27 @@ router = APIRouter(prefix="/employee", tags=["Employee"])
 
 @router.post("/create", response_model=EmployeeRead)
 def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-    if current_user == "osama@gmail.com":
-        existing = db.query(HrEmployee).filter(
-            (HrEmployee.email == employee.email)).first()
-        if existing:
-            raise HTTPException(status_code=400, detail="Employee with this email or phone already exists.")
+    existing = db.query(HrEmployee).filter((HrEmployee.email == employee.email)).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Employee with this email or phone already exists.")
 
-        new_employee = HrEmployee(
-            emp_name=employee.emp_name,
-            email=employee.email,
-            phone=employee.phone,
-            second_phone=employee.second_phone,
-            status=employee.status,
-            address=employee.address,
-            job_title=employee.job_title,
-            dep_name=employee.dep_name,
-            employee_type=employee.employee_type,
-            employee_group_type=employee.employee_group_type
-        )
+    new_employee = HrEmployee(
+        emp_name=employee.emp_name,
+        email=employee.email,
+        phone=employee.phone,
+        second_phone=employee.second_phone,
+        status=employee.status,
+        address=employee.address,
+        job_title=employee.job_title,
+        dep_name=employee.dep_name,
+        employee_type=employee.employee_type,
+        employee_group_type=employee.employee_group_type
+    )
 
-        db.add(new_employee)
-        db.commit()
-        db.refresh(new_employee)
-        return new_employee
+    db.add(new_employee)
+    db.commit()
+    db.refresh(new_employee)
+    return new_employee
 
 
 @router.get("/{employee_id}", response_model=EmployeeRead)
@@ -45,8 +43,7 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
 
 @router.get("", response_model=list[EmployeeRead])
 def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
-    if current_user == 'osama@gmail.com':
-        employees = db.query(HrEmployee).offset(skip).limit(limit).all()
-        if not employees:
-            raise HTTPException(status_code=404, detail="No Employees yet")
-        return employees
+    employees = db.query(HrEmployee).offset(skip).limit(limit).all()
+    if not employees:
+        raise HTTPException(status_code=404, detail="No Employees yet")
+    return employees

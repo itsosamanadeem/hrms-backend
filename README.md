@@ -1,86 +1,142 @@
-# HRMS Project
+HRMS Project
+Human Resource Management System (HRMS)
 
-**Human Resource Management System (HRMS)**
+A modern HRMS backend built with FastAPI, SQLAlchemy, PostgreSQL, and Pydantic v2 for managing employees, attendance, leaves, and other HR processes.
 
-A modern HRMS backend built with **FastAPI**, **SQLAlchemy**, **PostgreSQL**, and **Pydantic v2** for managing employees, attendance, leaves, and other HR processes.
+🚀 Features
+1. Employee Management
 
----
+Add, update, and delete employee records
 
-## Features
+Employee details:
 
-### 1. Employee Management
+Name
 
-* Add, update, and delete employee records
-* Employee details: name, email, phone, job title, department, employee type and group
-* Support for nested employee-related data
+Email
 
-### 2. Attendance Management
+Phone
 
-* Record employee attendance with optional leaves
-* Supports multiple leave types (Sick, Annual, Hajj)
-* Retrieve attendance by employee or by record ID
-* Delete attendance records
+Job title
 
-### 3. Leave Management
+Department
 
-* Apply leaves for employees
-* Track leave types, start/end dates, and reason
-* Retrieve leave history per employee
+Employee type & group
 
-### 4. FastAPI & Pydantic v2
+Support for nested employee-related data
 
-* Modern API design with type validation and auto-documentation
-* Efficient nested Pydantic models for relationships
-* Production-ready Pydantic v2 schema conversion
+2. Attendance Management
 
-### 5. Database & ORM
+Record employee attendance
 
-* PostgreSQL backend
-* SQLAlchemy ORM with relationships
-* Eager loading for performance
-* Alembic migrations supported
+Optional leave linkage
 
-### 6. Environment Variables (config.env)
+Multiple leave types supported:
 
-```
+Sick
+
+Annual
+
+Hajj
+
+Retrieve attendance:
+
+By employee
+
+By attendance record ID
+
+Delete attendance records
+
+3. Leave Management
+
+Apply leaves for employees
+
+Track:
+
+Leave type
+
+Start & end dates
+
+Reason
+
+Retrieve leave history per employee
+
+4. FastAPI & Pydantic v2
+
+Modern REST API design
+
+Automatic Swagger & ReDoc documentation
+
+Strong type validation
+
+Nested Pydantic v2 schemas
+
+Production-ready schema conversion
+
+5. Database & ORM
+
+PostgreSQL backend
+
+SQLAlchemy ORM
+
+Proper model relationships
+
+Eager loading for better performance
+
+Alembic migrations supported
+
+⚙️ Environment Variables (config.env)
 DB_USER=postgres
 DB_PASSWORD=password
 DB_NAME=hrms_db
 DB_HOST=localhost
 DB_PORT=5432
-```
 
-### 7. Cloning
-
-```bash
-# Clone the repo
+📥 Cloning the Repository
 git clone https://github.com/itsosamanadeem/hrms-backend.git
 cd hrms-backend
-```
 
-### 8. Docker Compose for PostgreSQL & Portainer
-
-```yaml
+🐳 Docker Compose (PostgreSQL + HRMS + Portainer)
 version: '3.8'
+
 services:
+  hrms_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hrms_app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=hrms
+      - DB_NAME=postgres
+      - SECRET_KEY=V-YWu6ClrSOjaJ_BgXq4zwK9KUy7poM5H11hCg5H0ypuN0gUVaa6oh99-zljjXd1t7WMGd8zl_eloSJXecgjHA
+      - REFRESH_SECRET_KEY=ZIGz5X1j4hzHhyHriZE71f07SRuBNoptVRC_IIpFwu_Jpu6WArCmNA5OqskE7FDpYSY6dzWmYzYDDeLDFbsJNA
+    depends_on:
+      - db
+    restart: always
+
   db:
     image: postgres:latest
+    container_name: hrms_db
     ports:
-      - '5432:5432'
+      - "5432:5432"
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD=hrms
       - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=hrms
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - hrms_db_data:/var/lib/postgresql/data/pgdata
     restart: always
 
   portainer:
-    container_name: Portainer
+    container_name: portainer
     image: portainer/portainer-ce:latest
     ports:
-      - '9000:9000'
+      - "9000:9000"
     volumes:
       - portainer_data:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -89,11 +145,63 @@ services:
 volumes:
   hrms_db_data:
   portainer_data:
-```
 
-### 9. Installation & Run
+🐳 Docker Usage Notes (Important)
+No Manual Migrations Needed with Docker
 
-```bash
+If you are using Docker Compose, you do not need to run Alembic migrations manually.
+
+Simply start or restart the backend container:
+
+docker compose up -d
+docker compose restart hrms_app
+
+
+✅ The backend container will:
+
+Run Alembic migrations automatically (via entrypoint.sh)
+
+Skip already applied migrations safely
+
+Start the FastAPI server
+
+Connect to PostgreSQL using Docker networking
+
+❌ Do not run this manually when using Docker:
+
+alembic upgrade head
+
+🔁 Does entrypoint.sh Run on Container Restart?
+
+Yes.
+
+Every time the container is started or restarted, Docker automatically executes the ENTRYPOINT.
+
+This means:
+
+entrypoint.sh runs on:
+
+docker compose up
+
+docker compose restart hrms_app
+
+Container crash & auto-restart
+
+Database migrations are always applied safely
+
+No data loss (PostgreSQL uses volumes)
+
+✅ Recommended entrypoint.sh
+#!/bin/sh
+set -e
+
+echo "Running database migrations..."
+alembic upgrade head
+
+echo "Starting FastAPI server..."
+exec uvicorn main:app --host 0.0.0.0 --port 8000
+
+🧪 Local Installation (Without Docker)
 # Create virtual environment
 python -m venv .env
 source .env/bin/activate
@@ -101,25 +209,37 @@ source .env/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Run database migrations
+# Run migrations manually
 alembic upgrade head
 
 # Start server
 uvicorn main:app --reload
-```
 
-### 10. Documentation
+📚 API Documentation
 
-* FastAPI provides **Swagger UI**: `http://127.0.0.1:8000/docs`
-* ReDoc: `http://127.0.0.1:8000/redoc`
+Swagger UI:
+http://127.0.0.1:8000/docs
 
-### 11. License & Contribution
+ReDoc:
+http://127.0.0.1:8000/redoc
 
-* License restricts taking ownership of code; users can enhance and contribute
-* Contributions should follow project structure and Pydantic v2 best practices
+📜 License & Contribution
 
----
+License restricts taking ownership of the code
 
-**Author:** Osama Nadeem
-**GitHub:** [https://github.com/itsosamanadeem/hrms-backend](https://github.com/itsosamanadeem/hrms-backend)
-**Date:** 2025
+Enhancements and contributions are welcome
+
+Follow:
+
+Project structure
+
+Pydantic v2 best practices
+
+Clean commit history
+
+👨‍💻 Author
+
+Osama Nadeem
+GitHub: https://github.com/itsosamanadeem/hrms-backend
+
+Year: 2025
