@@ -10,12 +10,13 @@ class AttendanceCreate(BaseModel):
     employee_id: int
     attendance: Optional[float] = None
     leaves_type: Optional[LeaveTypeEnum] = None
-
+    attendance_taken: bool = False
 
 class AttendanceRead(BaseModel):
     id: int
     employee_id: int
     attendance: Optional[float]
     leaves_type: Optional[LeaveTypeEnum]
+    attendance_taken: Optional[bool] = False
 
     model_config = ConfigDict(from_attributes=True)

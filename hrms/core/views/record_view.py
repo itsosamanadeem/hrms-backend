@@ -5,6 +5,8 @@ from hrms.addons.base.model.ir_hr_model import IrHrModel
 import json
 from .get_all_relationships import get_all_relationships
 from .xml_fields_check import xml_fields
+from hrms.core.utilities.parser import XMLViewParser
+
 class RecordView:
 
     def __init__(self):
@@ -51,11 +53,14 @@ class RecordView:
 
             print("XML fields validated successfully.")
 
-            view_json = json.dumps({
-                "fields": list(xml_fields),
-                "type": view_type,
-                "model": model_name
-            })
+            parser = XMLViewParser()
+            parsed_view = parser.parse(xml_view)
+
+            # view_json = json.dumps({
+            #     "fields": list(xml_fields),
+            #     "type": view_type,
+            #     "model": model_name
+            # })
 
             existing = db.query(IrHrView).filter(IrHrView.view_id == view_id).first()
 
@@ -64,7 +69,7 @@ class RecordView:
                 existing.name = view_name
                 existing.view_type = view_type
                 existing.xml_data = xml_view
-                existing.json_data = view_json
+                existing.json_data = parsed_view
             else:
                 print(f"Creating new view: {view_id}")
                 new_view = IrHrView(
@@ -73,7 +78,7 @@ class RecordView:
                     view_type=view_type,
                     model_id=model.id,
                     xml_data=xml_view,
-                    json_data=view_json
+                    json_data=parsed_view
                 )
                 db.add(new_view)
 

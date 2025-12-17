@@ -44,7 +44,7 @@ def parse_args():
 ALEMBIC_CFG = Config(str(Path(__file__).resolve().parent / "alembic.ini"))
 
 def alembic_stamp():
-    command.stamp(ALEMBIC_CFG, "head")
+    command.stamp(ALEMBIC_CFG, "base")
     print("Database stamped to head")
 
 def alembic_revision(message: str):

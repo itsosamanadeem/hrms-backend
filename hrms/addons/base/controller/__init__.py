@@ -1,1 +1,1 @@
-from . import base_router,add_user, login
+from . import base_router,add_user, login, view_controller

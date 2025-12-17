@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, String, ForeignKey, Integer, Float, Enum
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Enum, Boolean
 from sqlalchemy.orm import relationship
 from hrms.core.utilities.database import Base
 
@@ -23,6 +23,8 @@ class IrHrAttendance(Base):
     leaves_type = Column(Enum(LeaveTypeEnum), nullable=True)
 
     attendance_left = Column(Float, nullable=True)
+    
+    attendance_taken = Column(Boolean, default=False)
     
     employee = relationship(
         "HrEmployee",
