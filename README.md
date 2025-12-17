@@ -1,101 +1,93 @@
-HRMS Project
-Human Resource Management System (HRMS)
+# 🚀 HRMS Project
 
-A modern HRMS backend built with FastAPI, SQLAlchemy, PostgreSQL, and Pydantic v2 for managing employees, attendance, leaves, and other HR processes.
+**Human Resource Management System (HRMS)**
 
-🚀 Features
-1. Employee Management
+A modern **HRMS backend** built with **FastAPI**, **SQLAlchemy**, **PostgreSQL**, and **Pydantic v2** for managing employees, attendance, leaves, and other HR processes.
 
-Add, update, and delete employee records
+---
 
-Employee details:
+## ✨ Features
 
-Name
+### 1. Employee Management
 
-Email
+* Add, update, and delete employee records
+* Employee details include:
 
-Phone
+  * Name
+  * Email
+  * Phone
+  * Job title
+  * Department
+  * Employee type & group
+* Support for nested employee-related data
 
-Job title
+### 2. Attendance Management
 
-Department
+* Record employee attendance
+* Optional leave linkage
+* Multiple leave types supported:
 
-Employee type & group
+  * Sick
+  * Annual
+  * Hajj
+* Retrieve attendance:
 
-Support for nested employee-related data
+  * By employee
+  * By attendance record ID
+* Delete attendance records
 
-2. Attendance Management
+### 3. Leave Management
 
-Record employee attendance
+* Apply leaves for employees
+* Track:
 
-Optional leave linkage
+  * Leave type
+  * Start & end dates
+  * Reason
+* Retrieve leave history per employee
 
-Multiple leave types supported:
+### 4. FastAPI & Pydantic v2
 
-Sick
+* Modern REST API design
+* Automatic Swagger & ReDoc documentation
+* Strong type validation
+* Nested Pydantic v2 schemas
+* Production-ready schema conversion
 
-Annual
+### 5. Database & ORM
 
-Hajj
+* PostgreSQL backend
+* SQLAlchemy ORM
+* Proper model relationships
+* Eager loading for better performance
+* Alembic migrations supported
 
-Retrieve attendance:
+---
 
-By employee
+## ⚙️ Environment Variables (`config.env`)
 
-By attendance record ID
-
-Delete attendance records
-
-3. Leave Management
-
-Apply leaves for employees
-
-Track:
-
-Leave type
-
-Start & end dates
-
-Reason
-
-Retrieve leave history per employee
-
-4. FastAPI & Pydantic v2
-
-Modern REST API design
-
-Automatic Swagger & ReDoc documentation
-
-Strong type validation
-
-Nested Pydantic v2 schemas
-
-Production-ready schema conversion
-
-5. Database & ORM
-
-PostgreSQL backend
-
-SQLAlchemy ORM
-
-Proper model relationships
-
-Eager loading for better performance
-
-Alembic migrations supported
-
-⚙️ Environment Variables (config.env)
+```env
 DB_USER=postgres
 DB_PASSWORD=password
 DB_NAME=hrms_db
 DB_HOST=localhost
 DB_PORT=5432
+```
 
-📥 Cloning the Repository
+---
+
+## 📥 Cloning the Repository
+
+```bash
 git clone https://github.com/itsosamanadeem/hrms-backend.git
 cd hrms-backend
+```
 
-🐳 Docker Compose (PostgreSQL + HRMS + Portainer)
+---
+
+## 🐳 Docker Compose (PostgreSQL + HRMS + Portainer)
+
+```yaml
 version: '3.8'
 
 services:
@@ -145,53 +137,40 @@ services:
 volumes:
   hrms_db_data:
   portainer_data:
+```
 
-🐳 Docker Usage Notes (Important)
-No Manual Migrations Needed with Docker
+---
 
-If you are using Docker Compose, you do not need to run Alembic migrations manually.
+## 🐳 Docker Usage Notes (Important)
 
-Simply start or restart the backend container:
+### ✅ No Manual Migrations Needed with Docker
 
+* Docker Compose automatically handles database migrations.
+* Simply start or restart the backend container:
+
+```bash
 docker compose up -d
 docker compose restart hrms_app
+```
 
+The backend container will:
 
-✅ The backend container will:
+* Run Alembic migrations automatically (`entrypoint.sh`)
+* Skip already applied migrations safely
+* Start the FastAPI server
+* Connect to PostgreSQL using Docker networking
 
-Run Alembic migrations automatically (via entrypoint.sh)
+❌ **Do not run Alembic manually when using Docker**:
 
-Skip already applied migrations safely
-
-Start the FastAPI server
-
-Connect to PostgreSQL using Docker networking
-
-❌ Do not run this manually when using Docker:
-
+```bash
 alembic upgrade head
+```
 
-🔁 Does entrypoint.sh Run on Container Restart?
+---
 
-Yes.
+### 🔁 `entrypoint.sh` Behavior
 
-Every time the container is started or restarted, Docker automatically executes the ENTRYPOINT.
-
-This means:
-
-entrypoint.sh runs on:
-
-docker compose up
-
-docker compose restart hrms_app
-
-Container crash & auto-restart
-
-Database migrations are always applied safely
-
-No data loss (PostgreSQL uses volumes)
-
-✅ Recommended entrypoint.sh
+```sh
 #!/bin/sh
 set -e
 
@@ -200,8 +179,20 @@ alembic upgrade head
 
 echo "Starting FastAPI server..."
 exec uvicorn main:app --host 0.0.0.0 --port 8000
+```
 
-🧪 Local Installation (Without Docker)
+* Runs on:
+
+  * `docker compose up`
+  * `docker compose restart hrms_app`
+* Ensures migrations are always applied safely
+* Supports container auto-restart without data loss
+
+---
+
+## 🧪 Local Installation (Without Docker)
+
+```bash
 # Create virtual environment
 python -m venv .env
 source .env/bin/activate
@@ -214,32 +205,31 @@ alembic upgrade head
 
 # Start server
 uvicorn main:app --reload
+```
 
-📚 API Documentation
+---
 
-Swagger UI:
-http://127.0.0.1:8000/docs
+## 📚 API Documentation
 
-ReDoc:
-http://127.0.0.1:8000/redoc
+* **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-📜 License & Contribution
+---
 
-License restricts taking ownership of the code
+## 📜 License & Contribution
 
-Enhancements and contributions are welcome
+* License restricts taking ownership of the code
+* Enhancements and contributions are welcome
+* Follow:
 
-Follow:
+  * Project structure
+  * Pydantic v2 best practices
+  * Clean commit history
 
-Project structure
+---
 
-Pydantic v2 best practices
+## 👨‍💻 Author
 
-Clean commit history
-
-👨‍💻 Author
-
-Osama Nadeem
-GitHub: https://github.com/itsosamanadeem/hrms-backend
-
+**Osama Nadeem**
+GitHub: [https://github.com/itsosamanadeem/hrms-backend](https://github.com/itsosamanadeem/hrms-backend)
 Year: 2025
