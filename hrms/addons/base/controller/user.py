@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from hrms.core.utilities.database import get_db
 from hrms.addons.base.schema.user_schema import CreateUserSchema, ReadUserSchema
 from hrms.addons.base.model.ir_hr_users import User
-from hrms.core.security import hash_password
+from hrms.core.security import hash_password, get_current_user, decode_access_token, oauth2_scheme
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(prefix="/users", tags=["Users"], dependencies=[Depends(get_current_user)])
 
 @router.post("/create", response_model=CreateUserSchema)
 def add_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
@@ -24,7 +24,9 @@ def add_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
     return new_user
 
 @router.get("/{user_id}", response_model=ReadUserSchema)
-def get_user(user_id: int, db: Session = Depends(get_db)):
+def get_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    payload = decode_access_token(token)
+    user_id = payload.get("sub")
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from hrms.core.utilities.database import get_db
-
+from hrms.core.security import get_current_user
 from hrms.addons.expense.model.hrms_expense import Expense
 from hrms.addons.expense.schema.expense_schema import ExpenseCreate, ExpenseRead
 from hrms.addons.employees.model.hr_employee import HrEmployee
 
-router = APIRouter(prefix="/expense", tags=["Expense"])
+router = APIRouter(prefix="/expense", tags=["Expense"], dependencies=[Depends(get_current_user)])
 
 @router.post("/create", response_model=ExpenseRead)
 def create_expense(payload: ExpenseCreate, db: Session = Depends(get_db)):

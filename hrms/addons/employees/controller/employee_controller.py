@@ -6,10 +6,10 @@ from hrms.addons.employees.model.hr_employee import HrEmployee
 from hrms.addons.employees.schema.employee_schema import EmployeeRead, EmployeeCreate
 from hrms.core.security import get_current_user
 
-router = APIRouter(prefix="/employee", tags=["Employee"])
+router = APIRouter(prefix="/employee", tags=["Employee"], dependencies=[Depends(get_current_user)])
 
 @router.post("/create", response_model=EmployeeRead)
-def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):
     existing = db.query(HrEmployee).filter((HrEmployee.email == employee.email)).first()
     if existing:
         raise HTTPException(status_code=400, detail="Employee with this email or phone already exists.")
@@ -42,7 +42,7 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("", response_model=list[EmployeeRead])
-def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: str = Depends(get_current_user)):
+def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     employees = db.query(HrEmployee).offset(skip).limit(limit).all()
     if not employees:
         raise HTTPException(status_code=404, detail="No Employees yet")

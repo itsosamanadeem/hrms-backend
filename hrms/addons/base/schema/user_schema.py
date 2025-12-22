@@ -12,7 +12,7 @@ class CreateUserSchema(BaseModel):
 class ReadUserSchema(BaseModel):
     
     name: str
-    email: EmailStr
+    email: str
     password: Optional[str] = None
     
     model_config = ConfigDict(from_attributes=True)

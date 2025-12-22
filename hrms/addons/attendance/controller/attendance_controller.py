@@ -5,7 +5,9 @@ from hrms.core.utilities.database import get_db
 from hrms.addons.attendance.model.attendance_report import IrHrAttendance
 from hrms.addons.employees.model.hr_employee import HrEmployee
 from hrms.addons.attendance.schema.attendance_schema import AttendanceCreate, AttendanceRead
-router = APIRouter(prefix="/attendance", tags=["Attendance"])
+from hrms.core.security import get_current_user
+
+router = APIRouter(prefix="/attendance", tags=["Attendance"], dependencies=[Depends(get_current_user)])
 
 
 @router.post("/create", response_model=AttendanceRead)
