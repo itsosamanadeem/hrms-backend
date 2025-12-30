@@ -17,3 +17,4 @@ from . import ir_hr_users
 from . import ir_hr_role
 from . import group_role_rel
 from . import ir_hr_system_boot
+from . import ir_hr_permission

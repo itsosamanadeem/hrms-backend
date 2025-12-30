@@ -1,7 +1,7 @@
 from hrms.core.utilities.database import SessionLocal
 from hrms.addons.base.model.ir_hr_system_boot import IrHrSystemBootStrap
 from hrms.addons.base.model.ir_hr_users import User
-from hrms.core.security import hash_password
+from hrms.core.security.hashing_password import hash_password
 
 def seed_super_user(db):
     

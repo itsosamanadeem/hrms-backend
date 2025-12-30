@@ -10,6 +10,7 @@ manifest = {
             # "views/department_views.py",
         ],
     },
+    "application": True,
     "cover_image": "static/cover.png",
     "auto_install": True
 }

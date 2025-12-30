@@ -3,9 +3,11 @@ from sqlalchemy.orm import Session
 from hrms.core.utilities.database import get_db
 from hrms.addons.base.schema.user_schema import CreateUserSchema, ReadUserSchema
 from hrms.addons.base.model.ir_hr_users import User
-from hrms.core.security import hash_password, get_current_user, decode_access_token, oauth2_scheme
+from hrms.core.security.jwt import decode_access_token, oauth2_scheme
+from hrms.core.security.hashing_password import hash_password
+from hrms.core.security.dependency import require_login
 
-router = APIRouter(prefix="/users", tags=["Users"], dependencies=[Depends(get_current_user)])
+router = APIRouter(prefix="/users", tags=["Users"], dependencies=[Depends(require_login)])
 
 @router.post("/create", response_model=CreateUserSchema)
 def add_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
@@ -16,7 +18,10 @@ def add_user(user_data: CreateUserSchema, db: Session = Depends(get_db)):
     new_user = User(
         name=user_data.name,
         email=user_data.email,
-        password=hash_password(user_data.password)
+        password=hash_password(user_data.password),
+        role=user_data.role,
+        is_super_admin=user_data.is_super_admin,
+        is_active=user_data.is_active
     )
     db.add(new_user)
     db.commit()

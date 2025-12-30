@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from hrms.core.utilities.database import get_db
 from hrms.addons.employees.model.hr_employee import HrEmployee
 from hrms.addons.employees.schema.employee_schema import EmployeeRead, EmployeeCreate
-from hrms.core.security import get_current_user
+from hrms.core.security.dependency import require_login
 
-router = APIRouter(prefix="/employee", tags=["Employee"], dependencies=[Depends(get_current_user)])
+router = APIRouter(prefix="/employee", tags=["Employee"], dependencies=[Depends(require_login)])
 
 @router.post("/create", response_model=EmployeeRead)
 def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):

@@ -1,6 +1,7 @@
 import importlib
 import pkgutil
 from fastapi import APIRouter, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 def include_routers(app: FastAPI, package_name: str = "hrms.addons"):
     """
@@ -15,5 +16,13 @@ def include_routers(app: FastAPI, package_name: str = "hrms.addons"):
 
         module = importlib.import_module(module_name)
         if hasattr(module, "router") and isinstance(getattr(module, "router"), APIRouter):
+            origin = ['http://localhost:5173']
+            app.add_middleware(
+                CORSMiddleware,
+                allow_origins=origin,
+                allow_credentials=True,
+                allow_methods=["*"],
+                allow_headers=["*"],
+            )
             app.include_router(getattr(module, "router"))
             print(f"Included router from: {module_name}")
