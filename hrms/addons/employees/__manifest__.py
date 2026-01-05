@@ -11,6 +11,6 @@ manifest = {
         ],
     },
     "application": True,
-    "cover_image": "static/cover.png",
+    "cover_image": "static/cover.svg",
     "auto_install": True
 }
