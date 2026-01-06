@@ -1,18 +1,45 @@
 from fastapi import APIRouter, Depends, HTTPException
 from hrms.core.utilities.database import get_db
 from hrms.addons.base.model.ir_hr_view import IrHrView
+from hrms.addons.base.model.ir_hr_model import IrHrModel
 from hrms.addons.base.schema.view_schema import ReadViewSchema
 from hrms.core.security.dependency import require_login
 from hrms.core.utilities.all_modules_in_addons import get_all_modules_in_addons
 
 router = APIRouter(prefix="/hrms", tags=["HRMS Views"], dependencies=[Depends(require_login)])
 
-@router.get("/{module_name}/{view_name}", response_model=ReadViewSchema)
-def get_view(module_name: str, view_name: str, db=Depends(get_db)):
+VIEW_PRIORITY={
+    "list": 1,
+    "kanban": 2,
+    "form": 3
+}
+
+@router.get("/{module_name}")
+def get_view(module_name: str,db=Depends(get_db)):
     if module_name not in get_all_modules_in_addons():
         raise HTTPException(status_code=404, detail=f"Module '{module_name}' not found in addons")
-    view = db.query(IrHrView).filter(IrHrView.name == view_name).first()
+    
+    model = (db.query(IrHrModel).filter(IrHrModel.module_name == module_name).order_by(IrHrModel.id).first())
 
-    if not view:
-        raise HTTPException(status_code=404, detail=f"View '{view_name}' for module '{module_name}' not found")
-    return view
+    if not model:
+        raise HTTPException(404, "No model found for module")
+    
+    if not model.views:
+        raise HTTPException(404, "No views found for module")
+    
+    serialized_views = []
+    for v in model.views:
+        serialized_views.append({
+            "id": v.id,
+            "name": v.name,
+            "view_type": v.view_type,
+            "priority": VIEW_PRIORITY.get(v.view_type, 99),
+            "arch": v.json_data
+        })
+    action = {
+        "type": "ir.actions.act_window",
+        "model": model.name,
+        "module": model.module_name,
+        "views": serialized_views
+    }
+    return action

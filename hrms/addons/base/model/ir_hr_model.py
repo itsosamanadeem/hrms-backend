@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text,ForeignKey
 from sqlalchemy.orm import relationship
 from hrms.core.utilities.database import Base
 
@@ -11,6 +11,6 @@ class IrHrModel(Base):
     name = Column(String(128), unique=True, nullable=False)
     description = Column(Text)
     category = Column(String(128))
-    view_id = Column(String(128))
+    module_name = Column(String(128), nullable=False)
 
     views = relationship("IrHrView", back_populates="model")

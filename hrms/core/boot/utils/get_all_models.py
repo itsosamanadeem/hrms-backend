@@ -1,4 +1,3 @@
-from sqlalchemy.orm import registry
 from hrms.core.utilities.database import Base
 
 def get_all_models():
@@ -17,6 +16,5 @@ def get_all_models():
                     pass
                 recurse(sub)
         recurse(Base)
-
 
     return models

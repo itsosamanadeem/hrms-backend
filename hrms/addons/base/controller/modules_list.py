@@ -13,23 +13,19 @@ def module_list(request:Request):
 
     app_modules = filter(lambda x:x.get('manifest', {}).get('application') is True, modules.values())
 
+    module_name = map(lambda x:x.get('manifest',{}).get('name'), modules.values())
+
+    print(str(module_name))
     modules_cover_images=[]
 
     for module in app_modules:
         modules_cover_images.append({
-            "name": module['name'],
+            "module_name": module.get('name'),
+            "app_name": module.get('manifest',{}).get('name'),
             "cover_image_url": (
                 f"{base_url}/media/apps/{module['name']}/{module.get('manifest').get('cover_image')}" if module.get('manifest').get('cover_image') else None
-            )
-            # "cover_image": (
-            #     Path(addons_dir) / module['name'] / module['manifest']['cover_image']
-            #     if module['manifest'].get('cover_image')
-            #     else None
-            # )
+            ),
         })
 
-
-    # base64 = Base64()
-    # cover_images = base64.image_to_base64(modules_cover_images)
     return modules_cover_images
     

@@ -1,5 +1,6 @@
 from sqlalchemy import inspect
 from hrms.addons.base.model.ir_hr_model import IrHrModel
+from hrms.core.boot.utils.get_module_name import get_module_name
 
 class RegisterModel:
 
@@ -18,10 +19,13 @@ class RegisterModel:
         if exists:
             return 
 
+        module_name = get_module_name(model_class=model_class)
+        
         new_entry = IrHrModel(
             name=table_name,
             description=f"Model for table {table_name}",
-            category="default"
+            category="default",
+            module_name=module_name
         )
         db.add(new_entry)
         db.commit()
