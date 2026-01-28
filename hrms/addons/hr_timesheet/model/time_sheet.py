@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer,ForeignKey
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class TimeSheet(Base):
+class TimeSheet(HRMSBase):
 
     __tablename__ = 'hr_timesheet'
 

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String,Boolean
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrSystemBootStrap(Base):
+class IrHrSystemBootStrap(HRMSBase):
     __tablename__ = "ir_hr_system_bootstrap"
 
     key = Column(String, primary_key=True)

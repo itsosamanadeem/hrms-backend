@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Text
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrAction(Base):
+class IrHrAction(HRMSBase):
     __tablename__ = "ir_hr_action"
     __table_args__ = {"extend_existing": True}
 

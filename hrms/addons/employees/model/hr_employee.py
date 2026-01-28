@@ -1,6 +1,6 @@
 import enum
 from sqlalchemy import Column, Integer, String, Text, Enum
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 from sqlalchemy.orm import relationship
 
 
@@ -14,7 +14,7 @@ class EmpGroupLevel(enum.Enum):
     G2 = "GROUP-2"
 
 
-class HrEmployee(Base):
+class HrEmployee(HRMSBase):
     __tablename__ = "hr_employee"
     __table_args__ = {"extend_existing": True}
 
@@ -22,7 +22,7 @@ class HrEmployee(Base):
     emp_name = Column(String(128))
     email = Column(String(128), unique=True)
     phone = Column(String(15), unique=True)
-
+    profile_image = Column(String(256))
     # column names cannot have spaces
     second_phone = Column("Another Phonenumber", String(15), unique=True)
 

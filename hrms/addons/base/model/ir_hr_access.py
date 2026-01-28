@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Boolean
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrAccess(Base):
+class IrHrAccess(HRMSBase):
     __tablename__ = "ir_hr_access"
     __table_args__ = {"extend_existing": True}
 

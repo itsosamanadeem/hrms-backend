@@ -4,13 +4,13 @@ from hrms.addons.base.model.ir_hr_view import IrHrView
 from hrms.addons.base.model.ir_hr_model import IrHrModel
 import json
 from .get_all_relationships import get_all_relationships
-from .xml_fields_check import xml_fields
+# from .xml_fields_check import xml_fields
 from hrms.core.utilities.parser import XMLViewParser
-
+import xml.etree.ElementTree as ET
 class RecordView:
 
     def __init__(self):
-        self.xml_fields =  xml_fields
+        # self.xml_fields =  xml_fields
         self.inspector = None
 
     def get_columns(self,db,model):
@@ -18,9 +18,40 @@ class RecordView:
         columns = self.inspector.get_columns(model)
         return [col["name"] for col in columns]
 
-    def get_tables_relationships(self,model):
-        orm_inspector = inspect(model)
-        return list(orm_inspector.relationships.keys())
+    # def get_tables_relationships(self, model):
+    #     orm_inspector = inspect(model)
+    #     return {
+    #         rel.key: rel.mapper.class_
+    #         for rel in orm_inspector.relationships
+    #     }
+    
+    def validate_xml_fields(self, xml_node, model_class):
+        orm_inspector = inspect(model_class)
+
+        columns = {c.key for c in orm_inspector.columns}
+        relationships = {
+            rel.key: rel.mapper.class_
+            for rel in orm_inspector.relationships
+        }
+
+        valid_fields = columns | relationships.keys()
+
+        for field in xml_node.findall("field"):
+            field_name = field.get("name")
+
+            if not field_name:
+                continue
+
+            if field_name not in valid_fields:
+                raise ValueError(
+                    f"Invalid field '{field_name}' for model '{model_class.__name__}'"
+                )
+
+            if field_name in relationships:
+                related_model = relationships[field_name]
+
+                for child in field:
+                    self.validate_xml_fields(child, related_model)
 
     def save_view_to_db(self,db: Session, view_id, view_name, view_type, model_name, xml_view):
         try:
@@ -34,33 +65,34 @@ class RecordView:
 
             model = db.query(IrHrModel).filter(IrHrModel.name == model_name).first()
             
-            model_columns = self.get_columns(db,model_name)
-
-            relation_ships = self.get_tables_relationships(ModelClass)
+            # model_columns = self.get_columns(db,model_name)
+            # print(model_columns)
+            # relation_ships = self.get_tables_relationships(ModelClass)
+            # print(relation_ships)
 
             if not model:
                 raise ValueError(f"Model {model_name} not found in ir_hr_model table")
 
-            xml_fields = self.xml_fields(xml_view)
-            model_fields = set(model_columns + relation_ships)
-            invalid_fields = set(xml_fields) - model_fields
+            root = ET.fromstring(xml_view)
 
-            if invalid_fields:
-                raise ValueError(
-                    f"Invalid fields detected in view '{view_name}': {invalid_fields}\n"
-                    f"ℹ Valid fields for '{model_name}' are: {model_columns}"
-                )
+            self.validate_xml_fields(root, ModelClass)
+
+            print("XML fields validated successfully.")
+
+            # xml_fields = self.xml_fields(xml_view)
+            # model_fields = set(model_columns + relation_ships)
+            # invalid_fields = set(xml_fields) - model_fields
+
+            # if invalid_fields:
+            #     raise ValueError(
+            #         f"Invalid fields detected in view '{view_name}': {invalid_fields}\n"
+            #         f"ℹ Valid fields for '{model_name}' are: {model_columns}"
+            #     )
 
             print("XML fields validated successfully.")
 
             parser = XMLViewParser()
             parsed_view = parser.parse(xml_view)
-
-            # view_json = json.dumps({
-            #     "fields": list(xml_fields),
-            #     "type": view_type,
-            #     "model": model_name
-            # })
 
             existing = db.query(IrHrView).filter(IrHrView.view_id == view_id).first()
 

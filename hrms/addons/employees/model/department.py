@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class EmployeeDepartment(Base):
+class EmployeeDepartment(HRMSBase):
     __tablename__ = "employee_department"
     __table_args__ = {"extend_existing": True}
 

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Boolean
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrRule(Base):
+class IrHrRule(HRMSBase):
     __tablename__ = "ir_hr_rule"
     __table_args__ = {"extend_existing": True}
 

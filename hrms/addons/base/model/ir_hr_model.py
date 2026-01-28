@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, Text,ForeignKey
 from sqlalchemy.orm import relationship
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
 
-class IrHrModel(Base):
+class IrHrModel(HRMSBase):
     __tablename__ = "ir_hr_model"
     __table_args__ = {"extend_existing": True}
 

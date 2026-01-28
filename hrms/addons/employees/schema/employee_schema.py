@@ -41,6 +41,7 @@ class EmployeeRead(BaseModel):
     employee_group_type: EmpGroupLevel | None
     expense: list[ExpenseRead] = []
     attendance_ids: list[AttendanceRead] = []
+    profile_image: Optional[str] = None
 
     class Config:
         from_attributes = True

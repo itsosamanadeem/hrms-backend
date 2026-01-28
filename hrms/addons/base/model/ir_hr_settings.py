@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 from sqlalchemy.orm import mapped_column, Mapped
 
-class IrHrSetting(Base):
+class IrHrSetting(HRMSBase):
     __tablename__ = "ir_hr_setting"
     __table_args__ = {"extend_existing": True}
 

@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, Text
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 from sqlalchemy.orm import relationship
 from .group_role_rel import ir_hr_group_role_rel
 
-class IrHrRole(Base):
+class IrHrRole(HRMSBase):
     __tablename__ = "ir_hr_role"
     __table_args__ = {"extend_existing": True}
 

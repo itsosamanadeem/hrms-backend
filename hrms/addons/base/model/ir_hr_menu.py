@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrMenu(Base):
+class IrHrMenu(HRMSBase):
     __tablename__ = "ir_hr_menu"
     __table_args__ = {"extend_existing": True}
 

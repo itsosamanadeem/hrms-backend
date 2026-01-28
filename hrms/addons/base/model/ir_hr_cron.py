@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from datetime import datetime
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrCron(Base):
+class IrHrCron(HRMSBase):
     __tablename__ = "ir_hr_cron"
     __table_args__ = {"extend_existing": True}
 

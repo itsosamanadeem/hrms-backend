@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime
 from datetime import datetime
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrLog(Base):
+class IrHrLog(HRMSBase):
     __tablename__ = "ir_hr_log"
     __table_args__ = {"extend_existing": True}
 

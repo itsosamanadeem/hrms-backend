@@ -7,24 +7,23 @@
             <form string="Employee">
                 <sheet>
                     <group>
-                        <field name="emp_name" invisble="1"/>
-                        <field name="email"/>
-                        <field name="phone"/>
-                        <field name="address"/>
-                        <field name="job_title"/>
-                        <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                        <field name="emp_name" string="Employee Name" invisble="1"/>
+                        <field name="email" string="Email"/>
+                        <field name="phone" string="Phone"/>
+                        <field name="address" string="Address"/>
+                        <field name="job_title" string="Job Title"/>
+                        <field name="dep_name" string="Department Name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
                     </group>
                 </sheet>    
                 <notebook>
-                    <page String="Employee Detail">
+                    <page string="Employee Detail">
                         <field name="attendance_ids">
                             <list>
-                                <field name="emp_name" invisble="1"/>
-                                <field name="email"/>
-                                <field name="phone"/>
-                                <field name="address"/>
-                                <field name="job_title"/>
-                                <field name="dep_name" domain="[('emp_name', '=', 'Osama Nadeem')]"/>
+                                <field name="employee_id" string="Employee ID"/>
+                                <field name="attendance" string="Attendance"/>
+                                <field name="leaves_type" string="Leave Type"/>
+                                <field name="attendance_left" string="Attendance Left"/>
+                                <field name="attendance_taken" string="Attendance Taken"/>
                             </list>
                         </field>
                     </page>

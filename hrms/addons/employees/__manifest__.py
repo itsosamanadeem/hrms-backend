@@ -7,6 +7,7 @@ manifest = {
         "views": [
             "views/employee.xml",
             "views/employee_list.xml",
+            "views/employee_kanban.xml",
             # "views/department_views.py",
         ],
     },

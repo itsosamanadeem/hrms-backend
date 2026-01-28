@@ -1,12 +1,12 @@
 from sqlalchemy import Column, Integer, ForeignKey,String, Enum
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 import enum
 
 class emp_bonus_enum(enum.Enum):
     PROVIDENDFUND = "Provident Fund"
     EIS= "Employee Investment Scheme"
 
-class EmployeeSalary(Base):
+class EmployeeSalary(HRMSBase):
     __tablename__ = "hr_salary"
     __table_args__ = {"extend_existing": True}
 

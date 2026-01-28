@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, Float
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class HrSalary(Base):
+class HrSalary(HRMSBase):
     __tablename__ = "hr_payroll"
     __table_args__ = {"extend_existing": True}
 

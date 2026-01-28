@@ -8,7 +8,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-MEDIA_DIRECTORY = os.getenv('MEDIA_DIRECTORY')
+MEDIA_DIRECTORY = Path(os.getenv('MEDIA_DIRECTORY'))
+ADDON_DIRECTORY = Path(os.getenv('ADDON_DIRECTORY'))
+
+MEDIA_DIRECTORY.mkdir(parents=True, exist_ok=True)
+ADDON_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BASE_DIR / "static"
@@ -29,6 +33,12 @@ app.mount(
     '/media/apps',
     StaticFiles(directory=MEDIA_DIRECTORY),
     name="apps_media"
+)
+
+app.mount(
+    '/media/addons',
+    StaticFiles(directory=ADDON_DIRECTORY),
+    name="addons_media"
 )
 include_routers(app)
 # @app.get("/favicon.ico", include_in_schema=False)

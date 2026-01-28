@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, JSON
 from sqlalchemy.orm import relationship
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrView(Base):
+class IrHrView(HRMSBase):
     __tablename__ = "ir_hr_view"
     __table_args__ = {"extend_existing": True}
 

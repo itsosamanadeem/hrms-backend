@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer,ForeignKey, String
 from sqlalchemy.orm import relationship
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class Expense(Base):
+class Expense(HRMSBase):
 
     __tablename__ = "hr_expense"
     __table_args__ = {"extend_existing": True}

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text
-from hrms.core.utilities.database import Base
+from hrms.addons.base.model.base_model import HRMSBase
 
-class IrHrField(Base):
+class IrHrField(HRMSBase):
     __tablename__ = "ir_hr_field"
     __table_args__ = {"extend_existing": True}
 

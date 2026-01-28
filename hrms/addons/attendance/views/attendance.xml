@@ -7,6 +7,10 @@
             <list string="attendances">
                 <field name="employee_id"/>
                 <field name="attendance"/>
+                <field name="leaves_type"/>
+                <field name="attendance_left"/>
+                <field name="attendance_taken"/>
+                <!-- <field name="employee"/> -->
             </list>
         </field>
     </record>

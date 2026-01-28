@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+    <record id="view_employee_kanban" model="ir_hr_view">
+        <field name="name">employee.kanban</field>
+        <field name="model">hr_employee</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                
+                <field name="emp_name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="job_title"/>
+                <field name="dep_name"/>
+                <field name="employee_type"/>
+                <field name="employee_group_type"/>
+                <field name="status"/>
+                <field name="profile_image" widget="imagebox"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            
+                            <!-- Header -->
+                            <div class="o_kanban_header">
+                                <strong class="o_kanban_record_title">
+                                    <field name="emp_name"/>
+                                </strong>
+                                <span class="o_kanban_status o_badge">
+                                    <field name="status"/>
+                                </span>
+                            </div>
+                            <!-- Content -->
+                            <div class="o_kanban_content">
+                                <div class="o_kanban_avatar">
+                                    <field name="profile_image" widget="imagebox"/>
+                                </div>
+
+                                <div class="o_kanban_details">
+                                    <div class="o_kanban_row">
+                                        <i class="fa fa-briefcase"/>
+                                        <field name="job_title"/>
+                                    </div>
+
+                                    <div class="o_kanban_row">
+                                        <i class="fa fa-building"/>
+                                        <field name="dep_name"/>
+                                    </div>
+
+                                    <div class="o_kanban_row">
+                                        <i class="fa fa-envelope"/>
+                                        <field name="email"/>
+                                    </div>
+
+                                    <div class="o_kanban_row">
+                                        <i class="fa fa-phone"/>
+                                        <field name="phone"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Footer -->
+                            <div class="o_kanban_footer">
+                                <span class="o_badge o_badge_secondary">
+                                    <field name="employee_type"/>
+                                </span>
+                                <span class="o_badge o_badge_info">
+                                    <field name="employee_group_type"/>
+                                </span>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+</data>

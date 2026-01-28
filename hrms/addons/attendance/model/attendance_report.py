@@ -1,8 +1,7 @@
 import enum
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Enum, Boolean
 from sqlalchemy.orm import relationship
-from hrms.core.utilities.database import Base
-
+from hrms.addons.base.model.base_model import HRMSBase
 
 class LeaveTypeEnum(enum.Enum):
     SICK = "Sick"
@@ -10,7 +9,7 @@ class LeaveTypeEnum(enum.Enum):
     HAJJ = "Hajj"
 
 
-class IrHrAttendance(Base):
+class IrHrAttendance(HRMSBase):
     __tablename__ = "hr_attendance"
     __table_args__ = {"extend_existing": True}
 

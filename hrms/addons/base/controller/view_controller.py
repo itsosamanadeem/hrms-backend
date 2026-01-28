@@ -28,6 +28,7 @@ def get_view(module_name: str,db=Depends(get_db)):
         raise HTTPException(404, "No views found for module")
     
     serialized_views = []
+    view_type = set()
     for v in model.views:
         serialized_views.append({
             "id": v.id,
@@ -36,10 +37,12 @@ def get_view(module_name: str,db=Depends(get_db)):
             "priority": VIEW_PRIORITY.get(v.view_type, 99),
             "arch": v.json_data
         })
+        view_type.add(v.view_type)
     action = {
         "type": "ir.actions.act_window",
         "model": model.name,
         "module": model.module_name,
-        "views": serialized_views
+        "views": serialized_views,
+        'view_type': view_type
     }
     return action

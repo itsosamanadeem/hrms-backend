@@ -5,12 +5,13 @@
         <field name="model">hr_employee</field>
         <field name="arch" type="xml">
             <list string="Employees">
-                <field name="emp_name"/>
-                <field name="email"/>
-                <field name="phone"/>
-                <field name="address"/>
-                <field name="job_title"/>
-                <field name="dep_name"/>
+                <field name="profile_image" string="Employee Profile" widget="imagebox"/>
+                <field name="emp_name" string="Employee Name"/>
+                <field name="email" string="Email"/>
+                <field name="phone" string="Phone"/>
+                <field name="address" string="Address"/>
+                <field name="job_title" string="Job Title"/>
+                <field name="dep_name" string="Department Name"/>
             </list>
         </field>
     </record>

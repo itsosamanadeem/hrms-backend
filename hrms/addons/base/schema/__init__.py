@@ -1,1 +1,1 @@
-from . import user_schema, view_schema
+from . import user_schema, view_schema, default_get_schema
