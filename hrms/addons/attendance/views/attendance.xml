@@ -4,7 +4,7 @@
         <field name="name">attendance.list</field>
         <field name="model">hr_attendance</field>
         <field name="arch" type="xml">
-            <list string="attendances">
+            <list string="Attendances">
                 <field name="employee_id"/>
                 <field name="attendance"/>
                 <field name="leaves_type"/>

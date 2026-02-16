@@ -4,7 +4,7 @@
         <field name="name">attendance.form</field>
         <field name="model">hr_attendance</field>
         <field name="arch" type="xml">
-            <form string="Employee">
+            <form string="Attendance">
                 <sheet>
                     <group>
                         <field name="employee_id"/>

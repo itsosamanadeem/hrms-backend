@@ -1,6 +1,7 @@
 ALLOWED_ATTRS = {
     "name",
     "string",
+    "action",
     "class",
     "style",
     "domain",

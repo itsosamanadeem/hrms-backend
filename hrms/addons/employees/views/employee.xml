@@ -5,6 +5,12 @@
         <field name="model">hr_employee</field>
         <field name="arch" type="xml">
             <form string="Employee">
+                <header>
+                    <button name="btn_1" string="Button 1" action="/btn_action_1" btn_type="primary"></button>
+                    <button name="btn_2" string="Button 2" action="/btn_action_2"></button>
+                    <button name="btn_3" string="Button 3" action="/btn_action_3"></button>
+                    <button name="btn_4" string="Button 4" action="/btn_action_4"></button>
+                </header>
                 <sheet>
                     <group>
                         <field name="emp_name" string="Employee Name" invisble="1"/>
@@ -17,15 +23,15 @@
                 </sheet>    
                 <notebook>
                     <page string="Employee Detail">
-                        <field name="attendance_ids">
-                            <list>
-                                <field name="employee_id" string="Employee ID"/>
-                                <field name="attendance" string="Attendance"/>
-                                <field name="leaves_type" string="Leave Type"/>
-                                <field name="attendance_left" string="Attendance Left"/>
-                                <field name="attendance_taken" string="Attendance Taken"/>
-                            </list>
-                        </field>
+                        <one2many name="attendance_ids">
+                            <!-- <list> -->
+                            <field name="employee_id" string="Employee ID"/>
+                            <field name="attendance" string="Attendance"/>
+                            <field name="leaves_type" string="Leave Type"/>
+                            <field name="attendance_left" string="Attendance Left"/>
+                            <field name="attendance_taken" string="Attendance Taken"/>
+                            <!-- </list> -->
+                        </one2many>
                     </page>
                 </notebook>
             </form>
