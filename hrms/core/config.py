@@ -1,8 +1,9 @@
 import os
-import dotenv
+from dotenv import load_dotenv
 from pathlib import Path
 
-load_env = dotenv.load_dotenv(dotenv.find_dotenv(Path(__file__).parent.parent / ".env"))
+load_dotenv()
+# load_env = dotenv.load_dotenv(dotenv.find_dotenv(Path(__file__).parent.parent / ".env"))
 class Settings:
     SECRET_KEY = os.getenv("SECRET_KEY")
     REFRESH_SECRET_KEY = os.getenv("REFRESH_SECRET_KEY")

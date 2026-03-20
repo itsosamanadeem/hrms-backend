@@ -53,18 +53,16 @@ def get_defaults_for_model(ModelCls, requested_fields=None):
 
 @router.post("/default_get", response_class=JSONResponse)
 def default_get(payload: DefaultGetPayload, db: Session = Depends(get_db)):
-    print('this is the payload', payload)
+    
     ModelCls = get_model(payload.model)
     requested_fields = set(payload.fields) if payload.fields else None
     
     defaults = get_defaults_for_model(ModelCls, requested_fields=requested_fields)
 
-    # Optional: context-based overrides
     context = payload.context or {}
     if "user_id" in context and hasattr(ModelCls, "user_id"):
         defaults["user_id"] = context["user_id"]
     
-    print('this is the default', defaults)
     return {
         "id": None,
         "mode": "create",

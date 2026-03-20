@@ -8,6 +8,8 @@ from hrms.addons.employees.schema.employee_schema import EmployeeRead, EmployeeC
 from hrms.core.security.dependency import require_login
 import os
 from pathlib import Path
+from hrms.core.storage.storage_dependence import get_storage
+from hrms.core.storage.storage_service import StorageService
 
 MEDIA_ROOT = Path(os.getenv('MEDIA_DIRECTORY'))
 MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
@@ -43,28 +45,28 @@ def create_employee(employee: EmployeeCreate, db: Session = Depends(get_db)):
 from fastapi import Request
 
 @router.post("/{employee_id}/upload-image", response_class=JSONResponse)
-def upload_employee_image(employee_id: int, file: UploadFile = File(...), db: Session = Depends(get_db), request: Request = None):
+def upload_employee_image(employee_id: int,file: UploadFile = File(...),db: Session = Depends(get_db),storage: StorageService = Depends(get_storage),):
+    
     emp = db.query(HrEmployee).filter(HrEmployee.id == employee_id).first()
     if not emp:
         raise HTTPException(status_code=404, detail="Employee not found")
 
-    safe_filename = f"{employee_id}_{file.filename.replace(' ', '_').replace(',', '')}"
-    file_location = MEDIA_ROOT / safe_filename
+    # Delete old image (optional but recommended)
+    if emp.profile_image:
+        storage.delete(emp.profile_image)
 
-    with file_location.open("wb") as f:
-        f.write(file.file.read())
+    # Save new file
+    file_bytes = file.file.read()
+    file_url = storage.save(file_bytes, file.filename, prefix=str(employee_id))
 
-    base_url = str(request.base_url).rstrip("/")
-    full_url = f"{base_url}/media/apps/{safe_filename}"
-
-    emp.profile_image = full_url
+    emp.profile_image = file_url
     db.commit()
     db.refresh(emp)
 
-    return JSONResponse(content={
+    return {
         "info": "File uploaded successfully",
-        "image_url": full_url
-    })
+        "image_url": file_url
+    }
 
 @router.get("/{employee_id}", response_model=EmployeeRead)
 def get_employee(employee_id: int, db: Session = Depends(get_db), request: Request = None):

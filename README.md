@@ -1,82 +1,90 @@
-# 🚀 HRMS Project
+---
 
-**Human Resource Management System (HRMS)**
+# 🚀 HRMS Backend
 
-A modern **HRMS backend** built with **FastAPI**, **SQLAlchemy**, **PostgreSQL**, and **Pydantic v2** for managing employees, attendance, leaves, and other HR processes.
+A modern **Human Resource Management System (HRMS)** backend built using **FastAPI**, **SQLAlchemy**, **PostgreSQL**, and **Pydantic v2**.
+
+This system provides a scalable and production-ready backend for managing employees, attendance, and leave workflows.
 
 ---
 
 ## ✨ Features
 
-### 1. Employee Management
+### 👨‍💼 Employee Management
 
-* Add, update, and delete employee records
-* Employee details include:
+* Create, update, and delete employees
+* Store detailed employee information:
 
-  * Name
-  * Email
-  * Phone
-  * Job title
-  * Department
-  * Employee type & group
-* Support for nested employee-related data
+  * Name, Email, Phone
+  * Job Title & Department
+  * Employee Type & Group
+* Supports nested relational data
 
-### 2. Attendance Management
+### ⏱️ Attendance Management
 
 * Record employee attendance
-* Optional leave linkage
-* Multiple leave types supported:
+* Link attendance with leave records
+* Supports multiple leave types:
 
-  * Sick
-  * Annual
-  * Hajj
-* Retrieve attendance:
+  * Sick Leave
+  * Annual Leave
+  * Hajj Leave
+* Fetch attendance:
 
   * By employee
-  * By attendance record ID
+  * By record ID
 * Delete attendance records
 
-### 3. Leave Management
+### 🌴 Leave Management
 
-* Apply leaves for employees
+* Apply and manage employee leaves
 * Track:
 
   * Leave type
-  * Start & end dates
+  * Start & End dates
   * Reason
 * Retrieve leave history per employee
 
-### 4. FastAPI & Pydantic v2
+### ⚡ FastAPI + Pydantic v2
 
-* Modern REST API design
-* Automatic Swagger & ReDoc documentation
-* Strong type validation
-* Nested Pydantic v2 schemas
-* Production-ready schema conversion
+* RESTful API design
+* Auto-generated docs (Swagger & ReDoc)
+* Strong validation with Pydantic v2
+* Clean and scalable schema structure
 
-### 5. Database & ORM
+### 🗄️ Database & ORM
 
-* PostgreSQL backend
+* PostgreSQL database
 * SQLAlchemy ORM
-* Proper model relationships
-* Eager loading for better performance
-* Alembic migrations supported
+* Proper relationships & eager loading
+* Alembic-based migrations
 
 ---
 
-## ⚙️ Environment Variables (`config.env`)
+## ⚙️ Environment Configuration
+
+Create a `.env` file in the project root:
 
 ```env
 DB_USER=postgres
-DB_PASSWORD=password
-DB_NAME=hrms_db
+DB_PASSWORD=hrms
+DB_NAME=postgres
 DB_HOST=localhost
 DB_PORT=5432
+
+SECRET_KEY=70f904050848bb41eefc3df40fda038df3c7b5597b606f15051d395b766cd76f
+REFRESH_SECRET_KEY=b5ec27383ee0db6478b61b13a409949697baa2a26ffd6b146164a8c9e817203e
+
+MEDIA_DIRECTORY=./storage/media/apps
+ADDON_DIRECTORY=./hrms/addons
+MEDIA_BASE_URL=/media/apps
 ```
 
 ---
 
-## 📥 Cloning the Repository
+## 📥 Getting Started (Docker Setup)
+
+### 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/itsosamanadeem/hrms-backend.git
@@ -85,112 +93,55 @@ cd hrms-backend
 
 ---
 
-## 🐳 Docker Compose (PostgreSQL + HRMS + Portainer)
-
-```yaml
-version: '3.8'
-
-services:
-  hrms_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: hrms_app
-    ports:
-      - "8000:8000"
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=hrms
-      - DB_NAME=postgres
-      - SECRET_KEY=V-YWu6ClrSOjaJ_BgXq4zwK9KUy7poM5H11hCg5H0ypuN0gUVaa6oh99-zljjXd1t7WMGd8zl_eloSJXecgjHA
-      - REFRESH_SECRET_KEY=ZIGz5X1j4hzHhyHriZE71f07SRuBNoptVRC_IIpFwu_Jpu6WArCmNA5OqskE7FDpYSY6dzWmYzYDDeLDFbsJNA
-    depends_on:
-      - db
-    restart: always
-
-  db:
-    image: postgres:latest
-    container_name: hrms_db
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=hrms
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-      - hrms_db_data:/var/lib/postgresql/data/pgdata
-    restart: always
-
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce:latest
-    ports:
-      - "9000:9000"
-    volumes:
-      - portainer_data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-
-volumes:
-  hrms_db_data:
-  portainer_data:
-```
-
----
-
-## 🐳 Docker Usage Notes (Important)
-
-### ✅ No Manual Migrations Needed with Docker
-
-* Docker Compose automatically handles database migrations.
-* Simply start or restart the backend container:
+### 2️⃣ Build & Start Containers
 
 ```bash
-docker compose up -d
-docker compose restart hrms_app
+docker compose up --build -d
 ```
 
-The backend container will:
+This will:
 
-* Run Alembic migrations automatically (`entrypoint.sh`)
-* Skip already applied migrations safely
-* Start the FastAPI server
-* Connect to PostgreSQL using Docker networking
+* Build the HRMS backend container
+* Start PostgreSQL database
+* Run services in detached mode
 
-❌ **Do not run Alembic manually when using Docker**:
+---
+
+## 🛠️ Initial HRMS Setup (IMPORTANT)
+
+After containers are running, execute the following commands **inside your project environment**:
+
+### Step-by-Step Setup
 
 ```bash
-alembic upgrade head
+# 1. Stamp database (initialize migration state)
+python -m hrms --stamp
+
+# 2. Create migration revision
+python -m hrms --revision "Initial setup"
+
+# 3. Apply migrations
+python -m hrms --upgrade
+
+# 4. Initialize database (seed / base setup)
+python -m hrms --init-db
+
+# 5. Run FastAPI server
+python -m hrms --run-server
 ```
 
 ---
 
-### 🔁 `entrypoint.sh` Behavior
+## ⚠️ Important Notes
 
-```sh
-#!/bin/sh
-set -e
-
-echo "Running database migrations..."
-alembic upgrade head
-
-echo "Starting FastAPI server..."
-exec uvicorn main:app --host 0.0.0.0 --port 8000
-```
-
-* Runs on:
-
-  * `docker compose up`
-  * `docker compose restart hrms_app`
-* Ensures migrations are always applied safely
-* Supports container auto-restart without data loss
+* Run the above commands **only once during initial setup**
+* Ensure PostgreSQL container is running before executing commands
+* Database credentials must match your `.env` file
+* Migration commands are handled via the custom `hrms` CLI
 
 ---
 
-## 🧪 Local Installation (Without Docker)
+## 🧪 Running Without Docker
 
 ```bash
 # Create virtual environment
@@ -200,31 +151,58 @@ source .env/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Run migrations manually
-alembic upgrade head
+# Setup database
+python -m hrms --stamp
+python -m hrms --revision "Initial setup"
+python -m hrms --upgrade
+python -m hrms --init-db
 
-# Start server
-uvicorn main:app --reload
+# Run server
+python -m hrms --run-server
 ```
 
 ---
 
 ## 📚 API Documentation
 
-* **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-* **ReDoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+* Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 ---
 
-## 📜 License & Contribution
+## 📁 Project Structure (Simplified)
 
-* License restricts taking ownership of the code
-* Enhancements and contributions are welcome
-* Follow:
+```
+hrms-backend/
+│── hrms/
+│   ├── models/
+│   ├── schemas/
+│   ├── api/
+│   ├── addons/
+│   └── core/
+│
+│── alembic/
+│── storage/
+│── main.py
+│── requirements.txt
+│── docker-compose.yml
+```
 
-  * Project structure
-  * Pydantic v2 best practices
-  * Clean commit history
+---
+
+## 🤝 Contribution Guidelines
+
+* Follow clean architecture principles
+* Use Pydantic v2 best practices
+* Maintain proper commit history
+* Keep modules modular and reusable
+
+---
+
+## 📜 License
+
+This project is licensed with restrictions on ownership reuse.
+Contributions and improvements are welcome.
 
 ---
 
@@ -233,3 +211,5 @@ uvicorn main:app --reload
 **Osama Nadeem**
 GitHub: [https://github.com/itsosamanadeem/hrms-backend](https://github.com/itsosamanadeem/hrms-backend)
 Year: 2025
+
+---

@@ -8,8 +8,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
-MEDIA_DIRECTORY = Path(os.getenv('MEDIA_DIRECTORY'))
-ADDON_DIRECTORY = Path(os.getenv('ADDON_DIRECTORY'))
+MEDIA_DIRECTORY = Path(os.getenv('MEDIA_DIRECTORY', './storage/media/apps'))
+ADDON_DIRECTORY = Path(os.getenv('ADDON_DIRECTORY', './hrms/addons'))
 
 MEDIA_DIRECTORY.mkdir(parents=True, exist_ok=True)
 ADDON_DIRECTORY.mkdir(parents=True, exist_ok=True)
